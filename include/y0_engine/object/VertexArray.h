@@ -4,12 +4,12 @@
 #include <GLFW/glfw3.h>
 
 namespace y0_engine {
-  class vertex_array {
+  class VertexArray {
     public:
       // constructor for make vao
-      vertex_array(GLint dimension_, const float* vertex, GLuint vertex_count,
+      VertexArray(GLint dimension_, const float* vertex, GLuint vertex_count,
           const GLuint *index, GLuint index_count);
-      ~vertex_array();
+      ~VertexArray();
 
       void bind();
 

@@ -1,9 +1,9 @@
 #include <GL/glew.h>
 
-#include "vertex_array.h"
+#include "VertexArray.h"
 
 namespace y0_engine {
-  vertex_array::vertex_array(GLint dimension, const float* verts, unsigned int numVerts,
+  VertexArray::VertexArray(GLint dimension, const float* verts, unsigned int numVerts,
                              const unsigned int* indices, unsigned int numIndices)
     : dimension_(dimension),
       vertex_count_(numVerts),
@@ -26,7 +26,7 @@ namespace y0_engine {
     glVertexAttribPointer(0, dimension_, GL_FLOAT, GL_FALSE, sizeof(float) * dimension_, 0);
   }
 
-  vertex_array::~vertex_array() {
+  VertexArray::~VertexArray() {
     glDeleteBuffers(1, &vbo_);
     glDeleteBuffers(1, &index_buffer_);
     glDeleteVertexArrays(1, &vao_);
