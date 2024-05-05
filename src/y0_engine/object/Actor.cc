@@ -1,17 +1,15 @@
-#include "y0_engine/object/actor.h"
+#include "y0_engine/object/Actor.h"
 
 Actor::Actor(T *owner)
   : state_(Active),
-  position_(Vector3::zero_)
-  , scale_(1.0f)
-  , rotation_(0.0f)
-    , owner_(owner)
-{
+    position_(Vector3::zero_),
+    scale_(1.0f),
+    rotation_(0.0f),
+    owner_(owner) {
   owner->AddActor(this);
 }
 
-Actor::~Actor()
-{
+Actor::~Actor() {
   try {
     owner_->RemoveActor(this);
     while (!components_.empty())
@@ -23,8 +21,7 @@ Actor::~Actor()
   }
 }
 
-void Actor::Update(float delta_time)
-{
+void Actor::Update(float delta_time) {
   if (state_ != Active)
     return;
 
@@ -32,22 +29,19 @@ void Actor::Update(float delta_time)
   UpdateActor(delta_time);
 }
 
-void Actor::UpdateComponents(float delta_time)
-{
+void Actor::UpdateComponents(float delta_time) {
   for (auto component : components_)
   {
     component->Update(delta_time);
   }
 }
 
-void Actor::UpdateActor(float delta_time)
-{
+void Actor::UpdateActor(float delta_time) {
 }
 
 // note:
 //   i wonder able to use priority queue
-void Actor::AddComponent(Component *component)
-{
+void Actor::AddComponent(Component *component) {
   int order = component->GetUpdateOrder();
   auto iter = components_.begin();
   for (; iter != components_.end(); ++iter)
@@ -61,8 +55,7 @@ void Actor::AddComponent(Component *component)
   components_.insert(iter, component);
 }
 
-void Actor::RemoveComponent(Component *component)
-{
+void Actor::RemoveComponent(Component *component) {
   auto iter = std::find(components_.begin(), components_.end(), component);
   if (iter == components_.end())
     return;
