@@ -5,11 +5,11 @@ namespace y0_engine {
   template<typename T>
   struct Vector3 {
     public:
-      Vector3 Vector3() {
+      Vector3() {
         Vector3(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
       }
 
-      Vector3 Vector3(T x, T y, T z)
+      Vector3(T x, T y, T z)
         : x_(x), y_(y), z_(z)
       {
       }
@@ -18,7 +18,10 @@ namespace y0_engine {
       T y_;
       T z_;
 
-      Vector3 zero_(0.0f, 0.0f, 0.0f);
+      static Vector3<float> get_zero_vector() {
+        Vector3<float> v(0.0f, 0.0f, 0.0f);
+        return v;
+      }
   };
 } // namespace y0_engine
 

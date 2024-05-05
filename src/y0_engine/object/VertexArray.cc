@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 
-#include "VertexArray.h"
+#include "y0_engine/object/VertexArray.h"
 
 namespace y0_engine {
   VertexArray::VertexArray(GLint dimension, const float* verts, unsigned int numVerts,
@@ -32,7 +32,7 @@ namespace y0_engine {
     glDeleteVertexArrays(1, &vao_);
   }
 
-  void vertex_array::bind()
+  void VertexArray::bind()
   {
     glBindVertexArray(vao_);
   }
