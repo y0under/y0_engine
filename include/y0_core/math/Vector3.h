@@ -18,7 +18,7 @@ namespace y0_engine {
       T y_;
       T z_;
 
-      Vector3 zero(0.0f, 0.0f, 0.0f);
+      Vector3 zero_(0.0f, 0.0f, 0.0f);
   };
 } // namespace y0_engine
 
