@@ -15,10 +15,41 @@ project(y0_engine CXX)
 #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-long-long --pedantic-errors")
 # endif()
 
-add_subdirectory(src/y0_engine/object)
-add_subdirectory(src/y0_engine/shader)
+# add_subdirectory(src/y0_engine/object)
+# add_subdirectory(src/y0_engine/shader)
 
 set(BIN_NAME y0_engine)
+set(TARGET_DIR_OBJECT object)
+set(TARGET_DIR_SHADER shader)
+
+set(OBJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/y0_engine/${TARGET_DIR_OBJECT})
+set(SHADER_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/y0_engine/${TARGET_DIR_SHADER})
+set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(OBJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/y0_engine/${TARGET_DIR_OBJECT})
+set(SHADER_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/y0_engine/${TARGET_DIR_SHADER})
+
+file(GLOB OBJECT_SOURCES "${OBJECT_SOURCE_DIR}/*.cc")
+file(GLOB SHADER_SOURCES "${SHADER_SOURCE_DIR}/*.cc")
+set(SOURCES ${OBJECT_SOURCES} ${SHADER_SOURCES})
+
+add_library(${BIN_NAME} SHARED ${SOURCES})
+
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(GLEW REQUIRED)
+
+target_include_directories(
+  ${BIN_NAME} PUBLIC
+  ${INCLUDE_DIR}
+  ${OBJECT_INCLUDE_DIR}
+  ${SHADER_INCLUDE_DIR})
+
+target_link_libraries(${BIN_NAME}
+                      OpenGL::GL
+                      glfw
+                      GLEW)
+
+# set(BIN_NAME y0_engine)
 
 # set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 # set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
