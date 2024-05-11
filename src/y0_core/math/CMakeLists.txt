@@ -1,0 +1,9 @@
+set(BIN_NAME math)
+
+set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/y0_engine/${BIN_NAME})
+set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+
+file(GLOB SOURCES "${SOURCE_DIR}/*.cc")
+add_library(${BIN_NAME} ${SOURCES})
+
+target_include_directories(${BIN_NAME} PUBLIC ${INCLUDE_DIR})
