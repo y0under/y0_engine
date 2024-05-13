@@ -4,7 +4,7 @@
 
 namespace y0_engine {
   VertexArray::VertexArray(GLint dimension, const float* verts, unsigned int numVerts,
-                             const unsigned int* indices, unsigned int numIndices)
+                           const unsigned int* indices, unsigned int numIndices)
     : dimension_(dimension),
       vertex_count_(numVerts),
       index_count_(numIndices) {
@@ -15,7 +15,7 @@ namespace y0_engine {
     // vertex buffer object
     glGenBuffers(1, &vbo_);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    glBufferData(GL_ARRAY_BUFFER, numVerts * 5 * sizeof(float), verts, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, numVerts * 5 * sizeof(float), verts, GL_DYNAMIC_DRAW);
 
     // index buffer
     glGenBuffers(1, &index_buffer_);
