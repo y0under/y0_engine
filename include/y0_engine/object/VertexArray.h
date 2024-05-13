@@ -12,6 +12,7 @@ namespace y0_engine {
       ~VertexArray();
 
       void bind();
+      void bind(GLfloat *vertices);
 
       GLuint get_index_count() const { return index_count_; }
       GLuint get_vertex_count() const { return vertex_count_; }

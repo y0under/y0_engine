@@ -36,4 +36,10 @@ namespace y0_engine {
   {
     glBindVertexArray(vao_);
   }
+
+  void VertexArray::bind(GLfloat *vertices) {
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+  }
 } // namespace y0_engine
