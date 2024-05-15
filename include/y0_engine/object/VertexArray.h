@@ -6,9 +6,11 @@
 namespace y0_engine {
   class VertexArray {
     public:
-      // constructor for make vao
+      // constructor for make vao with ibo
       VertexArray(GLint dimension_, const float* vertex, GLuint vertex_count,
           const GLuint *index, GLuint index_count);
+      // constructor for make vao non ibo
+      VertexArray(GLint dimension_, const float* vertex, GLuint vertex_count);
       ~VertexArray();
 
       void bind();

@@ -26,6 +26,22 @@ namespace y0_engine {
     glVertexAttribPointer(0, dimension_, GL_FLOAT, GL_FALSE, sizeof(float) * dimension_, 0);
   }
 
+  VertexArray::VertexArray(GLint dimension, const float* verts, unsigned int numVerts)
+    : dimension_(dimension),
+      vertex_count_(numVerts) {
+      // vertex array object
+    glGenVertexArrays(1, &vao_);
+    glBindVertexArray(vao_);
+
+    // vertex buffer object
+    glGenBuffers(1, &vbo_);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    glBufferData(GL_ARRAY_BUFFER, numVerts * 5 * sizeof(float), verts, GL_DYNAMIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, dimension_, GL_FLOAT, GL_FALSE, sizeof(float) * dimension_, 0);
+  }
+
   VertexArray::~VertexArray() {
     glDeleteBuffers(1, &vbo_);
     glDeleteBuffers(1, &index_buffer_);
