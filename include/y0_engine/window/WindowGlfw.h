@@ -13,7 +13,7 @@ class WindowGlfw {
     /*
      * Constructor
      */
-    WindowGlfw(const GLuint &width, const GLuint &height, const char *title = "GLFW");
+    WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle = "GLFW");
     /*
      * Destructor
      */

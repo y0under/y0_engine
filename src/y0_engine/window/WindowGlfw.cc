@@ -1,8 +1,8 @@
 #include "y0_engine/window/WindowGlfw.h"
 
-WindowGlfw::WindowGlfw(const GLuint &width, const GLuint &height, const char *title)
-  : width_(width), height_(height), window_(nullptr, glfwDestroyWindow) {
-    InitWindow(title);
+WindowGlfw::WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle)
+  : width_(kwidth), height_(kheight), window_(nullptr, glfwDestroyWindow) {
+    InitWindow(ktitle);
 }
 
 WindowGlfw::~WindowGlfw() {
