@@ -26,6 +26,10 @@ class WindowGlfw {
      * Does close the window?
      */
     bool ShouldClose();
+    /*
+     * call glfwGetKey
+     */
+    bool IsPressedKey(const int &key);
 
   private:
     GLuint width_;

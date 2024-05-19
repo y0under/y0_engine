@@ -45,3 +45,7 @@ void WindowGlfw::InitWindow(const char *title) {
 bool WindowGlfw::ShouldClose() {
   return glfwWindowShouldClose(window_.get());
 }
+
+bool WindowGlfw::IsPressedKey(const int &key) {
+  return glfwGetKey(window_.get(), key);
+}
