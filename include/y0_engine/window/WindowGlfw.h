@@ -30,6 +30,10 @@ class WindowGlfw {
      * call glfwGetKey
      */
     bool IsPressedKey(const int &key);
+    /*
+     * Swap buffer for double buffer
+     */
+    void SwapBuffers();
 
   private:
     GLuint width_;

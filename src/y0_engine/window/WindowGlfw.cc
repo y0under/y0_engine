@@ -49,3 +49,7 @@ bool WindowGlfw::ShouldClose() {
 bool WindowGlfw::IsPressedKey(const int &key) {
   return glfwGetKey(window_.get(), key);
 }
+
+void WindowGlfw::SwapBuffers() {
+  glfwSwapBuffers(window_.get());
+}
