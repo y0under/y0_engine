@@ -3,7 +3,7 @@
 
 namespace y0_engine {
   template<typename T>
-  struct vector2 {
+  struct Vector2 {
     T x;
     T y;
   };
