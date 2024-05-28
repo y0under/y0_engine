@@ -3,27 +3,30 @@
 
 #include "y0_engine/object/Actor.h"
 
-template<typename T>
-class Component {
-  public:
-    Component(Actor* owner, int update_order)
-      : owner_(owner),
-      update_order_(update_order) {
-        owner_->AddComponent(this);
-      }
+namespace y0_engine {
+  template<typename T>
+    class Component {
+      public:
+        Component(Actor* owner, int update_order)
+          : owner_(owner),
+            update_order_(update_order) {
+          owner_->AddComponent(this);
+        }
 
-    ~Component() {
-      owner_->RemoveComponent(this);
-    }
+        ~Component() {
+          owner_->RemoveComponent(this);
+        }
 
-    void Update(float delta_time)
-    {
-    }
+        virtual void Update(float delta_time)
+        {
+        }
 
-    int GetUpdateOrder() const { return update_order_; }
-  protected:
-    class Actor<T>* owner_;
-    int update_order_;
-};
+        inline int GetUpdateOrder() const { return update_order_; }
+
+      protected:
+        Actor<T>* owner_;
+        int update_order_;
+    };
+}
 
 #endif
