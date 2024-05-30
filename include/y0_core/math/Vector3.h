@@ -22,6 +22,10 @@ namespace y0_engine {
         Vector3<float> v(0.0f, 0.0f, 0.0f);
         return v;
       }
+
+      T SquareLength() {
+        return x_ * x_ + y_ * y_ + z_ * z_;
+      }
   };
 } // namespace y0_engine
 
