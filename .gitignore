@@ -1,1 +1,5 @@
-./build
+.DS_Store
+build/*
+include/.DS_Store
+include/y0_core/.DS_Store
+src/y0_core/.DS_Store
