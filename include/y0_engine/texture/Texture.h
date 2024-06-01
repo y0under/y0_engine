@@ -8,7 +8,7 @@ public:
 	Texture();
 	~Texture();
 	
-	bool LoadTexture(const std::string &file_nName);
+	bool LoadTexture(const std::string &file_name);
 	void UnloadTexture();
 	
 	void LetActiveTheTexture();

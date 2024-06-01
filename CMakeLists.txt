@@ -64,6 +64,7 @@ set(SOURCES ${OBJECT_SOURCES} ${COMPONENTS_SOURCES} ${MESH_SOURCES} ${RENDERING_
 
 add_library(${BIN_NAME} SHARED ${SOURCES})
 
+find_package(OpenCV REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
@@ -83,6 +84,7 @@ target_include_directories(
   ${WINDOW_INCLUDE_DIR})
 
 target_link_libraries(${BIN_NAME}
+                      ${OpenCV_LIBS}
                       OpenGL::GL
                       glfw
                       GLEW
