@@ -52,7 +52,7 @@ namespace y0_engine {
        */
       template <typename T>
         void log(boost::log::trivial::severity_level level, const T &message) {
-          BOOST_LOG_SEV(logger, level) << message;
+          BOOST_LOG_SEV(logger_, level) << message;
         }
     private:
       void SetLogLevel(const std::string &level);
@@ -61,10 +61,10 @@ namespace y0_engine {
        */
       Logger()
         : is_initialized(false),
-          logger(boost::log::keywords::severity = boost::log::trivial::info) {}
+          logger_(boost::log::keywords::severity = boost::log::trivial::info) {}
 
       bool is_initialized;
-      boost::log::sources::severity_logger<boost::log::trivial::severity_level> logger;
+      boost::log::sources::severity_logger<boost::log::trivial::severity_level> logger_;
   };
 } // namespace y0_engine
 
