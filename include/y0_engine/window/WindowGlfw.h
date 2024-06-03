@@ -5,40 +5,42 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-/*
- * window handler with glfw
- */
-class WindowGlfw {
-  public:
-    /*
-     * Constructor
-     */
-    WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle = "GLFW");
-    /*
-     * Destructor
-     */
-    virtual ~WindowGlfw();
-    /*
-     * Initialization
-     */
-    void InitWindow(const char *title = "GLFW");
-    /*
-     * Does close the window?
-     */
-    bool ShouldClose();
-    /*
-     * call glfwGetKey
-     */
-    bool IsPressedKey(const int &key);
-    /*
-     * Swap buffer for double buffer
-     */
-    void SwapBuffers();
+namespace y0_engine {
+  /*
+   * window handler with glfw
+   */
+  class WindowGlfw {
+    public:
+      /*
+       * Constructor
+       */
+      WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle = "GLFW");
+      /*
+       * Destructor
+       */
+      virtual ~WindowGlfw();
+      /*
+       * Initialization
+       */
+      void InitWindow(const char *title = "GLFW");
+      /*
+       * Does close the window?
+       */
+      bool ShouldClose();
+      /*
+       * call glfwGetKey
+       */
+      bool IsPressedKey(const int &key);
+      /*
+       * Swap buffer for double buffer
+       */
+      void SwapBuffers();
 
-  private:
-    GLuint width_;
-    GLuint height_;
-    std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window_;
-};
-
+    private:
+      GLuint width_;
+      GLuint height_;
+      std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window_;
+  };
+}  // namespace y0_engine
+   //
 #endif

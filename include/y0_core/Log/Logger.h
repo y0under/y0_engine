@@ -14,10 +14,10 @@
 #include <memory>
 #include <cstdlib>
 
-#define LOG_INFO(msg) Logger::getInstance().log(boost::log::trivial::info, msg)
-#define LOG_ERROR(msg) Logger::getInstance().log(boost::log::trivial::error, msg)
-#define LOG_WARNING(msg) Logger::getInstance().log(boost::log::trivial::warning, msg)
-#define LOG_DEBUG(msg) Logger::getInstance().log(boost::log::trivial::debug, msg)
+#define LOG_INFO(msg) Logger::GetInstance().log(boost::log::trivial::info, msg)
+#define LOG_ERROR(msg) Logger::GetInstance().log(boost::log::trivial::error, msg)
+#define LOG_WARNING(msg) Logger::GetInstance().log(boost::log::trivial::warning, msg)
+#define LOG_DEBUG(msg) Logger::GetInstance().log(boost::log::trivial::debug, msg)
 
 namespace y0_engine {
   /*
@@ -38,7 +38,10 @@ namespace y0_engine {
       /*
        * get singleton object
        */
-      static Logger &GetInstance();
+      static Logger &GetInstance() {
+        static Logger instance;
+        return instance;
+      }
       /*
        * let init the class
        */
@@ -56,9 +59,9 @@ namespace y0_engine {
       /*
        * constructor
        */
-      Logger();
-      : is_initialized(false),
-        logger(boost::log::keywords::severity = boost::log::trivial::info) {}
+      Logger()
+        : is_initialized(false),
+          logger(boost::log::keywords::severity = boost::log::trivial::info) {}
 
       bool is_initialized;
       boost::log::sources::severity_logger<boost::log::trivial::severity_level> logger;

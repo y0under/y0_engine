@@ -1,55 +1,61 @@
+#include "y0_core/Log/Logger.h"
 #include "y0_engine/window/WindowGlfw.h"
 
-WindowGlfw::WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle)
-  : width_(kwidth), height_(kheight), window_(nullptr, glfwDestroyWindow) {
-    InitWindow(ktitle);
-}
+namespace y0_engine {
+  WindowGlfw::WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle)
+    : width_(kwidth), height_(kheight), window_(nullptr, glfwDestroyWindow) {
+      LOG_INFO("GLFW start"); 
+      InitWindow(ktitle);
+    }
 
-WindowGlfw::~WindowGlfw() {
-}
-
-void WindowGlfw::InitWindow(const char *title) {
-  if (!glfwInit()) {
-    throw std::runtime_error("GLFW is not initialized.");
+  WindowGlfw::~WindowGlfw() {
   }
 
-  // rgist process of ending
-  atexit(glfwTerminate);
+  void WindowGlfw::InitWindow(const char *title) {
+    if (!glfwInit()) {
+      LOG_ERROR("GLFW is not initialized.");
+      return;
+    }
 
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // rgist process of ending
+    atexit(glfwTerminate);
 
-  std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window(glfwCreateWindow(width_, height_, title, nullptr, nullptr), glfwDestroyWindow);
-  window_ = std::move(window);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  if (!window_) {
-    throw std::runtime_error("Failed to create GLFW window.");
+    std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window(glfwCreateWindow(width_, height_, title, nullptr, nullptr), glfwDestroyWindow);
+    window_ = std::move(window);
+
+    if (!window_) {
+      LOG_ERROR("Failed to create GLFW window.");
+      return;
+    }
+
+    // let active window
+    glfwMakeContextCurrent(window_.get());
+
+    // init glew
+    glewExperimental = GL_TRUE;
+
+    if (glewInit() != GLEW_OK) {
+      window_.reset();
+      LOG_ERROR("Can't initialize GLEW");
+      return;
+    }
   }
 
-  // let active window
-  glfwMakeContextCurrent(window_.get());
-
-  // init glew
-  glewExperimental = GL_TRUE;
-
-  if (glewInit() != GLEW_OK)
-  {
-    glfwDestroyWindow(window_.get());
-    throw std::runtime_error("Can't initialize GLEW");
+  bool WindowGlfw::ShouldClose() {
+    return glfwWindowShouldClose(window_.get());
   }
-}
 
-bool WindowGlfw::ShouldClose() {
-  return glfwWindowShouldClose(window_.get());
-}
+  bool WindowGlfw::IsPressedKey(const int &key) {
+    return glfwGetKey(window_.get(), key);
+  }
 
-bool WindowGlfw::IsPressedKey(const int &key) {
-  return glfwGetKey(window_.get(), key);
-}
-
-void WindowGlfw::SwapBuffers() {
-  glfwSwapBuffers(window_.get());
-}
+  void WindowGlfw::SwapBuffers() {
+    glfwSwapBuffers(window_.get());
+  }
+}  // namespace y0_engine

@@ -70,6 +70,10 @@ find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Boost REQUIRED)
 
+# find_package(Boost COMPONENTS thread system log log_setup filesystem system REQUIRED)
+find_package(Boost REQUIRED COMPONENTS log log_setup thread filesystem system)
+# find_package(Threads)
+
 
 target_include_directories(
   ${BIN_NAME} PUBLIC
@@ -81,14 +85,19 @@ target_include_directories(
   ${RENDERING_INCLUDE_DIR}
   ${SHADER_INCLUDE_DIR}
   ${LOG_INCLUDE_DIR}
-  ${WINDOW_INCLUDE_DIR})
+  ${WINDOW_INCLUDE_DIR}
+  ${Boost_INCLUDE_DIRS})
+
+add_definitions("-DBOOST_LOG_DYN_LINK")
 
 target_link_libraries(${BIN_NAME}
                       ${OpenCV_LIBS}
                       OpenGL::GL
                       glfw
                       GLEW
-                      Boost::boost)
+                      ${Boost_LIBRARIES}
+                      ${CMAKE_THREAD_LIBS_INIT})
+                      # Boost::boost)
 
 # set(BIN_NAME y0_engine)
 

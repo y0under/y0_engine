@@ -5,11 +5,6 @@ namespace y0_engine {
     : is_initialized(false),
       logger(boost::log::keywords::severity/* = boost::log::trivial::info*/) {}
 
-  Logger::GetInstance() {
-    static Logger instance;
-    return instance;
-  }
-
   void Logger::Init(const std::string &log_dir, 
                     const std::string &log_format /* = "[%TimeStamp%] [%Severity%]: %Message%"*/) {
     if (!is_initialized) {
