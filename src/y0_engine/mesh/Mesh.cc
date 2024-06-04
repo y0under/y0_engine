@@ -4,6 +4,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
+#include "y0_core/Log/Logger.h"
 #include "y0_core/math/Math.h"
 #include "y0_engine/mesh/Mesh.h"
 #include "y0_engine/rendering/Renderer.h"
@@ -14,7 +15,7 @@ namespace y0_engine {
   Mesh::Mesh()
     : radius_(0.0f),
       spec_power_(100.0f) {
-    }
+  }
 
   Mesh::~Mesh() {
   }
@@ -23,7 +24,7 @@ namespace y0_engine {
   {
     std::ifstream file(file_name);
     if (!file.is_open()) {
-      std::cerr << "File not found: Mesh " << file_name << std::endl;;
+      LOG_ERROR(std::string("File not found: Mesh ") + file_name);
       return false;
     }
 
@@ -37,13 +38,13 @@ namespace y0_engine {
       boost::property_tree::read_json(json_stream, doc);
     }
     catch (const boost::property_tree::json_parser_error& e) {
-      std::cerr << "Mesh " << file_name << " is not valid json: " << e.what() << std::endl;
+      LOG_ERROR(std::string("Mesh ") + file_name + std::string(" is not valid json ") + e.what());
       return false;
     }
 
     int ver = doc.get<int>("version", -1);
     if (ver != 1) {
-      std::cerr << "Mesh " << file_name << " not version 1" << std::endl;
+      LOG_ERROR(std::string("Mesh ") + file_name + std::string(" not version 1"));
       return false;
     }
 
@@ -54,9 +55,8 @@ namespace y0_engine {
 
     // Load textures
     auto texturesNode = doc.get_child_optional("textures");
-    if (!texturesNode || texturesNode->empty())
-    {
-      std::cerr << "Mesh " << file_name <<  " has no textures, there should be at least one" << std::endl;
+    if (!texturesNode || texturesNode->empty()) {
+      LOG_ERROR(std::string("Mesh ") + file_name + std::string(" has no textures. there should be at least one."));
       return false;
     }
 
@@ -68,16 +68,15 @@ namespace y0_engine {
       std::unique_ptr<Texture> t = renderer->GetTexture(texture_name);
       if (t.get() == nullptr)
       {
-        t = renderer->GetTexture("Assets/Default.png");
+        t = renderer->GetTexture("Assets/Texture.png");
       }
       textures_.emplace_back(t.get());
     }
 
     // Load in the vertices
     auto vertsNode = doc.get_child_optional("vertices");
-    if (!vertsNode || vertsNode->empty())
-    {
-      std::cerr << "Mesh " << file_name << " has no vertices" << std::endl;
+    if (!vertsNode || vertsNode->empty()) {
+      LOG_ERROR(std::string("Mesh ") + file_name + std::string(" has no vertices."));
       return false;
     }
 
@@ -85,20 +84,17 @@ namespace y0_engine {
     vertices.reserve(vertsNode->size() * vertSize);
     radius_ = 0.0f;
 
-    for (const auto& item : *vertsNode)
-    {
+    for (const auto &item : *vertsNode) {
       auto vert = item.second;
-      if (vert.size() != 8)
-      {
-        std::cerr << "Unexpected vertex format for "  << file_name << std::endl;;
+      if (vert.size() != 8) {
+        LOG_ERROR(std::string("Unexpected vertex format for ") + file_name);
         return false;
       }
 
       Vector3 pos(vert.get<double>("0"), vert.get<double>("1"), vert.get<double>("2"));
       radius_ = Math::Max(radius_, pos.SquareLength());
 
-      for (size_t i = 0; i < vert.size(); ++i)
-      {
+      for (size_t i = 0; i < vert.size(); ++i) {
         vertices.emplace_back(vert.get<float>(std::to_string(i)));
       }
     }
@@ -107,25 +103,21 @@ namespace y0_engine {
 
     // Load in the indices
     auto indicesNode = doc.get_child_optional("indices");
-    if (!indicesNode || indicesNode->empty())
-    {
-      std::cerr << "Mesh " << file_name << " has no indices" << std::endl;
+    if (!indicesNode || indicesNode->empty()) {
+      LOG_ERROR(std::string("Mesh ") + file_name + std::string(" has no indices"));
       return false;
     }
 
     std::vector<unsigned int> indices;
     indices.reserve(indicesNode->size() * 3);
-    for (const auto& item : *indicesNode)
-    {
+    for (const auto& item : *indicesNode) {
       auto ind = item.second;
-      if (ind.size() != 3)
-      {
-        std::cerr << "Invalid indices for " << file_name << std::endl;;
+      if (ind.size() != 3) {
+        LOG_ERROR(std::string("Invalid indices for ") + file_name);
         return false;
       }
 
-      for (size_t i = 0; i < 3; ++i)
-      {
+      for (size_t i = 0; i < 3; ++i) {
         indices.emplace_back(ind.get<unsigned int>(std::to_string(i)));
       }
     }
@@ -139,13 +131,11 @@ namespace y0_engine {
     return true;
   }
 
-  void Mesh::UnloadTheMesh()
-  {
+  void Mesh::UnloadTheMesh() {
     vertex_array_.reset();
   }
 
-  Texture* Mesh::GetTexture(size_t index)
-  {
+  Texture* Mesh::GetTexture(size_t index) {
     if (index < textures_.size())
       return textures_[index];
 

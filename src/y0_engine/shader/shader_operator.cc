@@ -1,8 +1,9 @@
-#include "y0_engine/shader/shader_operator.h"
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
+#include "y0_core/Log/Logger.h"
+#include "y0_engine/shader/shader_operator.h"
 
 namespace y0_engine {
   shader_operator::shader_operator() {
@@ -20,8 +21,7 @@ namespace y0_engine {
     char buffer[512];
     std::memset(buffer, 0, 512);
     glGetShaderInfoLog(shader, 511, nullptr, buffer);
-    // TODO: out put log
-    std::cerr << buffer << std::endl;
+    LOG_ERROR(buffer);
 
     return false;
   }
@@ -35,8 +35,8 @@ namespace y0_engine {
     char buffer[512];
     std::memset(buffer, 0, 512);
     glGetProgramInfoLog(shader, 511, nullptr, buffer);
-    // TODO: out put log
-    std::cerr << buffer << std::endl;
+    LOG_ERROR(buffer);
+
     return false;
   }
 
@@ -44,8 +44,10 @@ namespace y0_engine {
       GLenum shader_type,
       GLuint &out_shader) {
     std::ifstream shader_file(file_name);
-    if (!shader_file.is_open())
+    if (!shader_file.is_open()) {
+      LOG_ERROR("failed to open shader file.");
       return false;
+    }
 
     // get stream buffer object
     std::stringstream sstream;
@@ -59,8 +61,10 @@ namespace y0_engine {
     glShaderSource(out_shader, 1, &contents, nullptr);
     glCompileShader(out_shader);
 
-    if (!is_success_compile(out_shader))
+    if (!is_success_compile(out_shader)) {
+      LOG_ERROR("failed to compile shader.");
       return false;
+    }
 
     return true;
   }
@@ -68,16 +72,20 @@ namespace y0_engine {
   bool shader_operator::load_shader(const std::string &vertex_shader_file_name,
       const std::string &fragment_shader_file_name) {
     if (!compile_shader(vertex_shader_file_name, GL_VERTEX_SHADER, vertex_shader_id_) ||
-        !compile_shader(fragment_shader_file_name, GL_FRAGMENT_SHADER, fragment_shader_id_))
+        !compile_shader(fragment_shader_file_name, GL_FRAGMENT_SHADER, fragment_shader_id_)) {
+      LOG_ERROR("failed to load shader.");
       return false;
+    }
 
     shader_program_id_ = glCreateProgram();
     glAttachShader(shader_program_id_, vertex_shader_id_);
     glAttachShader(shader_program_id_, fragment_shader_id_);
     glLinkProgram(shader_program_id_);
 
-    if (!is_valid_program(shader_program_id_))
+    if (!is_valid_program(shader_program_id_)) {
+      LOG_ERROR("failed to link shader.");
       return false;
+    }
     return true;
   }
 

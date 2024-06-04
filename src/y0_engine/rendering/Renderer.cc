@@ -1,3 +1,4 @@
+#include "y0_core/Log/Logger.h"
 #include "y0_engine/rendering/Renderer.h"
 
 namespace y0_engine {
@@ -14,7 +15,10 @@ namespace y0_engine {
   }
 
   std::unique_ptr<Texture> Renderer::GetTexture(const std::string &file_name) {
-    if (file_name == "") return nullptr;
+    if (file_name == "") {
+      LOG_ERROR("Renderer::GetTexture: empty file name.");
+      return nullptr;
+    }
     std::unique_ptr<Texture> texture;
 
     // TODO: find already loaded rexture

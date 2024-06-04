@@ -2,14 +2,15 @@
 #include <GL/glew.h>
 #include <opencv2/opencv.hpp>
 
+#include "y0_core/Log/Logger.h"
 #include "y0_engine/texture/Texture.h"
 
 namespace y0_engine {
   Texture::Texture()
     : texture_id_(0),
-    width_(0),
-    height_(0) {
-    }
+      width_(0),
+      height_(0) {
+  }
 
   Texture::~Texture() {
     UnloadTexture();
@@ -19,7 +20,7 @@ namespace y0_engine {
     // load image
     cv::Mat image = cv::imread(file_name, cv::IMREAD_UNCHANGED);
     if (image.empty()) {
-      std::cerr << "Failed to load texture: " << file_name << std::endl;
+      LOG_ERROR(std::string("Failed to load texture: ") + file_name);
       return false;
     }
 
