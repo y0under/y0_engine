@@ -2,10 +2,18 @@
 #include "y0_engine/rendering/Renderer.h"
 
 namespace y0_engine {
+  /**
+   * @brief constructor
+   *
+   * @param title
+   */
   Renderer::Renderer(const std::string &title)
     : window_(new WindowGlfw(kwidth_, kheight_, title.c_str())) {
   }
 
+  /**
+   * @brief destructor
+   */
   Renderer::~Renderer() {
   }
 
@@ -14,6 +22,13 @@ namespace y0_engine {
     // TODO: render sprite component
   }
 
+  /**
+   * @brief get texture data
+   *
+   * @param file_name
+   *
+   * @return 
+   */
   std::unique_ptr<Texture> Renderer::GetTexture(const std::string &file_name) {
     if (file_name == "") {
       LOG_ERROR("Renderer::GetTexture: empty file name.");
