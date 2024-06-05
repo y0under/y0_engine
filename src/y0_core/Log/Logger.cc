@@ -1,6 +1,12 @@
 #include "y0_core/Log/Logger.h"
 
 namespace y0_engine {
+  /**
+   * @brief initialize log system
+   *
+   * @param log_dir output dir
+   * @param log_format
+   */
   void Logger::Init(const std::string &log_dir, 
       const std::string &log_format /* = "[%TimeStamp%] [%Severity%]: %Message%"*/) {
     try {
@@ -34,6 +40,11 @@ namespace y0_engine {
     }
   }
 
+  /**
+   * @brief determin log level
+   *
+   * @param level able to log level with std::string
+   */
   void Logger::SetLogLevel(const std::string &level) {
     try {
       boost::log::trivial::severity_level log_level;
