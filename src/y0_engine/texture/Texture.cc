@@ -6,16 +6,29 @@
 #include "y0_engine/texture/Texture.h"
 
 namespace y0_engine {
+  /**
+   * @brief constructor
+   */
   Texture::Texture()
     : texture_id_(0),
       width_(0),
       height_(0) {
   }
 
+  /**
+   * @brief destructor
+   */
   Texture::~Texture() {
     UnloadTexture();
   }
 
+  /**
+   * @brief load texture data
+   *
+   * @param file_name target texture file
+   *
+   * @return 
+   */
   bool Texture::LoadTexture(const std::string &file_name) {
     // load image
     cv::Mat image = cv::imread(file_name, cv::IMREAD_UNCHANGED);
@@ -43,10 +56,16 @@ namespace y0_engine {
     return true;
   }
 
+  /**
+   * @brief let active the texture
+   */
   void Texture::LetActiveTheTexture() {
     glBindTexture(GL_TEXTURE_2D, texture_id_);
   }
 
+  /**
+   * @brief free the texture
+   */
   void Texture::UnloadTexture() {
     if (texture_id_ == 0)
       return;
