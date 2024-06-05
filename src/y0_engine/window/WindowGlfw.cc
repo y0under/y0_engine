@@ -2,15 +2,30 @@
 #include "y0_engine/window/WindowGlfw.h"
 
 namespace y0_engine {
+  /**
+   * @brief constructor
+   *
+   * @param kwidth window width
+   * @param kheight window height
+   * @param ktitle window title
+   */
   WindowGlfw::WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle)
     : width_(kwidth), height_(kheight), window_(nullptr, glfwDestroyWindow) {
       LOG_INFO("GLFW start"); 
       InitWindow(ktitle);
     }
 
+  /**
+   * @brief destructor
+   */
   WindowGlfw::~WindowGlfw() {
   }
 
+  /**
+   * @brief initialization the window
+   *
+   * @param title
+   */
   void WindowGlfw::InitWindow(const char *title) {
     if (!glfwInit()) {
       LOG_ERROR("GLFW is not initialized.");
@@ -47,14 +62,29 @@ namespace y0_engine {
     }
   }
 
+  /**
+   * @brief states of opening the window
+   *
+   * @return 
+   */
   bool WindowGlfw::ShouldClose() {
     return glfwWindowShouldClose(window_.get());
   }
 
+  /**
+   * @brief states of key pressed
+   *
+   * @param key
+   *
+   * @return 
+   */
   bool WindowGlfw::IsPressedKey(const int &key) {
     return glfwGetKey(window_.get(), key);
   }
 
+  /**
+   * @brief for double buffer
+   */
   void WindowGlfw::SwapBuffers() {
     glfwSwapBuffers(window_.get());
   }
