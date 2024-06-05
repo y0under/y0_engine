@@ -6,12 +6,29 @@
 #include "y0_engine/shader/shader_operator.h"
 
 namespace y0_engine {
+  /**
+   * @brief constructor
+   *
+   * @param 
+   */
   shader_operator::shader_operator() {
   }
 
+  /**
+   * @brief destructor
+   *
+   * @param 
+   */
   shader_operator::~shader_operator() {
   }
 
+  /**
+   * @brief confirm states of commpile of shader
+   *
+   * @param shader
+   *
+   * @return 
+   */
   bool shader_operator::is_success_compile(GLuint shader) {
     GLint compile_result;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compile_result);
@@ -26,6 +43,13 @@ namespace y0_engine {
     return false;
   }
 
+  /**
+   * @brief confirm status of shader program
+   *
+   * @param shader
+   *
+   * @return 
+   */
   bool shader_operator::is_valid_program(GLuint shader) {
     GLint link_result;
     glGetProgramiv(shader, GL_LINK_STATUS, &link_result);
@@ -40,9 +64,18 @@ namespace y0_engine {
     return false;
   }
 
+  /**
+   * @brief compile shader program
+   *
+   * @param file_name
+   * @param shader_type
+   * @param out_shader
+   *
+   * @return 
+   */
   bool shader_operator::compile_shader(const std::string &file_name,
-      GLenum shader_type,
-      GLuint &out_shader) {
+                                       GLenum shader_type,
+                                       GLuint &out_shader) {
     std::ifstream shader_file(file_name);
     if (!shader_file.is_open()) {
       LOG_ERROR("failed to open shader file.");
@@ -69,8 +102,16 @@ namespace y0_engine {
     return true;
   }
 
+  /**
+   * @brief load shader data
+   *
+   * @param vertex_shader_file_name target vertex shader file path
+   * @param fragment_shader_file_name target fragment shader file path
+   *
+   * @return 
+   */
   bool shader_operator::load_shader(const std::string &vertex_shader_file_name,
-      const std::string &fragment_shader_file_name) {
+                                    const std::string &fragment_shader_file_name) {
     if (!compile_shader(vertex_shader_file_name, GL_VERTEX_SHADER, vertex_shader_id_) ||
         !compile_shader(fragment_shader_file_name, GL_FRAGMENT_SHADER, fragment_shader_id_)) {
       LOG_ERROR("failed to load shader.");
@@ -89,12 +130,18 @@ namespace y0_engine {
     return true;
   }
 
+  /**
+   * @brief free the shader program
+   */
   void shader_operator::unload_shader() {
     glDeleteProgram(shader_program_id_);
     glDeleteProgram(vertex_shader_id_);
     glDeleteProgram(fragment_shader_id_);
   }
 
+  /**
+   * @brief let active the shader
+   */
   void shader_operator::set_target_shader() {
     glUseProgram(shader_program_id_);
   }
