@@ -12,14 +12,28 @@
 #include "y0_engine/object/VertexArray.h"
 
 namespace y0_engine {
+  /**
+   * @brief constructor
+   */
   Mesh::Mesh()
     : radius_(0.0f),
       spec_power_(100.0f) {
   }
 
+  /**
+   * @brief destructor
+   */
   Mesh::~Mesh() {
   }
 
+  /**
+   * @brief load mesh data defined as json with boost::property_tree
+   *
+   * @param file_name
+   * @param renderer
+   *
+   * @return 
+   */
   bool Mesh::LoadMesh(const std::string &file_name, Renderer *renderer)
   {
     std::ifstream file(file_name);
@@ -131,10 +145,20 @@ namespace y0_engine {
     return true;
   }
 
+  /**
+   * @brief free vertex array
+   */
   void Mesh::UnloadTheMesh() {
     vertex_array_.reset();
   }
 
+  /**
+   * @brief return texture data
+   *
+   * @param index
+   *
+   * @return 
+   */
   Texture* Mesh::GetTexture(size_t index) {
     if (index < textures_.size())
       return textures_[index];
