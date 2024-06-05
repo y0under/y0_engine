@@ -3,6 +3,15 @@
 #include "y0_engine/object/VertexArray.h"
 
 namespace y0_engine {
+  /**
+   * @brief constructor
+   *
+   * @param dimension demension the object
+   * @param verts vertex data
+   * @param numVerts number of vertex data
+   * @param indices index data
+   * @param numIndices number of index data
+   */
   VertexArray::VertexArray(GLint dimension, const float* verts, unsigned int numVerts,
                            const unsigned int* indices, unsigned int numIndices)
     : dimension_(dimension),
@@ -26,6 +35,13 @@ namespace y0_engine {
     glVertexAttribPointer(0, dimension_, GL_FLOAT, GL_FALSE, sizeof(float) * dimension_, 0);
   }
 
+  /**
+   * @brief constructor without index data
+   *
+   * @param dimension
+   * @param verts
+   * @param numVerts
+   */
   VertexArray::VertexArray(GLint dimension, const float* verts, unsigned int numVerts)
     : dimension_(dimension),
       vertex_count_(numVerts) {
@@ -42,17 +58,28 @@ namespace y0_engine {
     glVertexAttribPointer(0, dimension_, GL_FLOAT, GL_FALSE, sizeof(float) * dimension_, 0);
   }
 
+  /**
+   * @brief destructor
+   */
   VertexArray::~VertexArray() {
     glDeleteBuffers(1, &vbo_);
     glDeleteBuffers(1, &index_buffer_);
     glDeleteVertexArrays(1, &vao_);
   }
 
+  /**
+   * @brief bind the vertex array object
+   */
   void VertexArray::bind()
   {
     glBindVertexArray(vao_);
   }
 
+  /**
+   * @brief bind the verex buffer object
+   *
+   * @param vertices target vertex data
+   */
   void VertexArray::bind(GLfloat *vertices) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo_);
     glBufferData(GL_ARRAY_BUFFER, vertex_count_ * sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW);
