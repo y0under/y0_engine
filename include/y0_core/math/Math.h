@@ -14,6 +14,14 @@ namespace y0_engine {
       static float Sqrt(const float &val) {
         return std::sqrt(val);
       }
+
+      static float Cos(const float &rad) {
+        return std::cos(rad);
+      }
+
+      static float Sin(const float &rad) {
+        return std::sin(rad);
+      }
   };
 }  // namespace y0_engine
 
