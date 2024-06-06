@@ -7,6 +7,8 @@
 namespace y0_engine {
   class Math {
     public:
+      static constexpr double pi = 3.141592653589793;
+
       static float Max(const float &first, const float &second) {
         return std::max(first, second);
       }
