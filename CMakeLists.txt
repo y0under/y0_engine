@@ -99,6 +99,9 @@ target_link_libraries(${BIN_NAME}
                       ${CMAKE_THREAD_LIBS_INIT})
                       # Boost::boost)
 
+# test code
+add_subdirectory(test)
+
 # set(BIN_NAME y0_engine)
 
 # set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
