@@ -1,5 +1,5 @@
 #ifndef Y0_ENGINE_INCLUDE_Y0_CORE_MATH_QUATERNION_H
-#include "y0_core/math/quaternion_h"
+#include "y0_core/math/Quaternion_h"
 
 namespace y0_engine {
 
