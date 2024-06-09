@@ -1,4 +1,0 @@
-/Users/y0_/prog/cc/y0_engine/test/build/CMakeFiles/y0_engine_test.dir
-/Users/y0_/prog/cc/y0_engine/test/build/CMakeFiles/run.dir
-/Users/y0_/prog/cc/y0_engine/test/build/CMakeFiles/edit_cache.dir
-/Users/y0_/prog/cc/y0_engine/test/build/CMakeFiles/rebuild_cache.dir
