@@ -1,28 +1,21 @@
 #include "y0_engine/window/WindowGlfw.h"
+#include "y0_engine/rendering/Renderer.h"
 
 #include <iostream>
 
 void test_main() {
-  const float kwidth = 600;
-  const float kheight = 400;
-
-  using WindowGlfw = y0_engine::WindowGlfw;
+  const float kwidth = 1500;
+  const float kheight = 843;
 
   std::cout << "init window" << std::endl;
-  WindowGlfw window(kwidth, kheight, "y0_engine test");
-  while (!window.ShouldClose()) {
-    if (window.IsPressedKey(GLFW_KEY_ESCAPE)) break;
+
+  y0_engine::Renderer renderer(kwidth, kheight, "test window");
+  while (!renderer.ShouldEnd()) {
     // define background color
-    glClearColor(0.2f, 0.0f, 1.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearDepth(1.0);
 
     // process_input();
     // update_status();
-    // generate_output();
-
-    window.SwapBuffers();
-    glfwPollEvents();
+    renderer.Draw();
   }
 }
 
