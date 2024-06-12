@@ -7,8 +7,11 @@ namespace y0_engine {
    *
    * @param title
    */
-  Renderer::Renderer(const std::string &title)
-    : window_(new WindowGlfw(kwidth_, kheight_, title.c_str())) {
+  Renderer::Renderer(const float &kwidth, const float &kheight,
+                     const std::string &title)
+    : kwidth_(kwidth),
+      kheight_(kheight),
+      window_(new WindowGlfw(kwidth, kheight, title.c_str())) {
   }
 
   /**
@@ -18,6 +21,13 @@ namespace y0_engine {
   }
 
   void Renderer::Draw() {
+    // if (window.IsPressedKey(GLFW_KEY_ESCAPE)) break;
+    glClearColor(0.2f, 0.0f, 1.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearDepth(1.0);
+
+    window_->SwapBuffers();
+    window_->PollEvents();
     // TODO: render mesh component
     // TODO: render sprite component
   }
@@ -40,5 +50,14 @@ namespace y0_engine {
     //       if cannot find loaded texture, try load texture named file_name
 
     return texture;
+  }
+
+  /**
+   * @brief 
+   *
+   * @return 
+   */
+  bool Renderer::ShouldEnd() {
+    return window_->ShouldClose();
   }
 } // namespace y0_engine

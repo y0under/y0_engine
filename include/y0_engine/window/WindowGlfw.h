@@ -35,6 +35,7 @@ namespace y0_engine {
        * Swap buffer for double buffer
        */
       void SwapBuffers();
+      void PollEvents();
 
     private:
       GLuint width_;

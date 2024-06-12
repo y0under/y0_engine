@@ -88,4 +88,11 @@ namespace y0_engine {
   void WindowGlfw::SwapBuffers() {
     glfwSwapBuffers(window_.get());
   }
+
+  /**
+   * @brief 
+   */
+  void WindowGlfw::PollEvents() {
+    glfwPollEvents();
+  }
 }  // namespace y0_engine
