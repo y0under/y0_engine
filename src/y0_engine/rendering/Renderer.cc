@@ -26,10 +26,13 @@ namespace y0_engine {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearDepth(1.0);
 
-    window_->SwapBuffers();
-    window_->PollEvents();
     // TODO: render mesh component
     // TODO: render sprite component
+
+    window_->SwapBuffers();
+
+    // FIXME: move PollEvents to ProcessInput
+    window_->PollEvents();
   }
 
   /**
