@@ -1,5 +1,7 @@
 #ifndef Y0_ENGINE_INCLUDE_Y0_CORE_MATH_QUATERNION_H
 #include "y0_core/math/Quaternion.h"
+#include "y0_core/math/Math.h"
+#include "y0_core/math/Vector3.h"
 
 namespace y0_engine {
   const Quaternion Quaternion::identity_(0.0f, 0.0f, 0.0f, 1.0f);
@@ -35,6 +37,35 @@ namespace y0_engine {
     y_ = y;
     z_ = z;
     w_ = w;
+  }
+
+  /**
+   * @brief quaternion is v*sin(theta/2), cos(theta/2)
+   *
+   * @param kaxis 3 demension vector
+   * @param theta angle for rotation
+   */
+  Quaternion::Quaternion(const Vector3<float> &kaxis, const float &theta)
+  {
+    float x = kaxis.x;
+    float y = kaxis.y;
+    float z = kaxis.z;
+    float length = x * x + y * y + z * z;
+
+    // normalize
+    if (length != 1.0f) {
+      length = Math::Sqrt(length);
+      x /= length;
+      y /= length;
+      z /= length;
+    }
+
+    float sin = Math::Sin(theta * 0.5f);
+    float cos = Math::Cos(theta * 0.5f);
+    x_ = sin * x;
+    y_ = sin * y;
+    z_ = sin * z;
+    w_ = cos;
   }
 } // namespace y0_engine
 

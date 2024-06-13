@@ -9,14 +9,14 @@ namespace y0_engine {
         Vector3(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
       }
 
-      Vector3(T x, T y, T z)
-        : x_(x), y_(y), z_(z)
+      Vector3(T x_value, T y_value, T z_value)
+        : x(x_value), y(y_value), z(z_value)
       {
       }
 
-      T x_;
-      T y_;
-      T z_;
+      T x;
+      T y;
+      T z;
 
       static Vector3<float> get_zero_vector() {
         Vector3<float> v(0.0f, 0.0f, 0.0f);
@@ -24,7 +24,7 @@ namespace y0_engine {
       }
 
       T SquareLength() {
-        return x_ * x_ + y_ * y_ + z_ * z_;
+        return x * x + y * y + z * z;
       }
   };
 } // namespace y0_engine
