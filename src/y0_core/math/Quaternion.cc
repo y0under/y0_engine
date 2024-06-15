@@ -40,7 +40,6 @@ namespace y0_engine {
     z_ = sin * z;
     w_ = cos;
   }
-} // namespace y0_engine
 
   /**
    * @brief constructor with default value
@@ -67,6 +66,6 @@ namespace y0_engine {
     z_ = z;
     w_ = w;
   }
-
+} // namespace y0_engine
 
 #endif
