@@ -3,9 +3,9 @@
 namespace y0_engine {
   class Quaternion {
     public:
-      Quaternion();
-      Quaternion(const Vector3<float> &kaxis, const float &theta);
-      Quaternion(const float &x, const float &y, const float &z, const float &w);
+      explicit Quaternion();
+      explicit Quaternion(const Vector3<float> &kaxis, const float &theta);
+      explicit Quaternion(const float &x, const float &y, const float &z, const float &w);
       void Set(const float &x, const float &y, const float &z, const float &w);
 
       static const Quaternion identity_;
