@@ -10,7 +10,7 @@
 namespace y0_engine {
   class shader_operator {
     public:
-      shader_operator();
+      explicit shader_operator();
       ~shader_operator();
 
       // load shader program for to get shader object id
