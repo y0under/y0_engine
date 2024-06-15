@@ -7,7 +7,7 @@ namespace y0_engine {
   template<typename T>
     class Component {
       public:
-        Component(Actor* owner, int update_order)
+        explicit Component(Actor* owner, int update_order)
           : owner_(owner),
             update_order_(update_order) {
           owner_->AddComponent(this);
