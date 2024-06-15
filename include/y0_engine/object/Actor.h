@@ -16,7 +16,7 @@ class Actor
       Dead
     };
 
-    Actor(T *owner)
+    explicit Actor(T *owner)
       : state_(Active),
       position_(y0_engine::Vector3<float>::zero_),
       scale_(1.0f),
