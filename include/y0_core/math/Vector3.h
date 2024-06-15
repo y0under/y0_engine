@@ -5,11 +5,11 @@ namespace y0_engine {
   template<typename T>
   struct Vector3 {
     public:
-      Vector3() {
+      explicit Vector3() {
         Vector3(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
       }
 
-      Vector3(T x_value, T y_value, T z_value)
+      explicit Vector3(T x_value, T y_value, T z_value)
         : x(x_value), y(y_value), z(z_value)
       {
       }
