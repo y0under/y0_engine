@@ -10,8 +10,8 @@ namespace y0_engine {
   {
     public:
       // constructor
-      Matrix();
-      Matrix(const GLfloat *a);
+      explicit Matrix();
+      explicit Matrix(const GLfloat *a);
 
       const GLfloat &operator[](std::size_t i) const {
         return matrix[i];
