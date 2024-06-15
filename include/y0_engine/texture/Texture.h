@@ -6,7 +6,7 @@
 namespace y0_engine {
   class Texture {
     public:
-      Texture();
+      explicit Texture();
       ~Texture();
 
       bool LoadTexture(const std::string &file_name);
