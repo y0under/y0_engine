@@ -17,7 +17,7 @@
 namespace y0_engine {
   class Mesh {
     public:
-      Mesh();
+      explicit Mesh();
       ~Mesh();
 
       bool LoadMesh(const std::string &file_name, Renderer *renderer);
