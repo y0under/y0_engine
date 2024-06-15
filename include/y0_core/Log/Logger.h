@@ -59,7 +59,7 @@ namespace y0_engine {
       /*
        * constructor
        */
-      Logger()
+      explicit Logger()
         : is_initialized(false),
           logger_(boost::log::keywords::severity = boost::log::trivial::info) {}
 
