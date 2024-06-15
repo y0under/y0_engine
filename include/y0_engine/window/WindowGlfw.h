@@ -14,7 +14,7 @@ namespace y0_engine {
       /*
        * Constructor
        */
-      WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle = "GLFW");
+      explicit WindowGlfw(const GLfloat &kwidth, const GLfloat &kheight, const char *ktitle = "GLFW");
       /*
        * Destructor
        */
