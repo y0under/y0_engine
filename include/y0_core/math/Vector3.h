@@ -35,11 +35,56 @@ namespace y0_engine {
       }
 
       /**
+       * @brief substitution
+       *
+       * @param v
+       *
+       * @return 
+       */
+      Vector3 &operator =(const Vector3 &v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        return *this;
+      }
+
+      /**
+       * @brief equality
+       *
+       * @param v
+       *
+       * @return 
+       */
+      bool operator ==(const Vector3 &v) const {
+        return x == v.x && y == v.y && z == v.z;
+      }
+
+      /**
+       * @brief not equality
+       *
+       * @param v
+       *
+       * @return 
+       */
+      bool operator !=(const Vector3 &v) const {
+        return x != v.x || y != v.y || z != v.z;
+      }
+
+      /**
+       * @brief ret this vector to zero
+       */
+      void RetZero() {
+        x = static_cast<T>(0);
+        y = static_cast<T>(0);
+        z = static_cast<T>(0);
+      }
+
+      /**
        * @brief make zero vector and return this one.
        *
        * @return 
        */
-      static Vector3<T> get_zero_vector() {
+      static Vector3<T> GetZeroVector() {
         Vector3<T> v(0, 0, 0);
         return v;
       }
