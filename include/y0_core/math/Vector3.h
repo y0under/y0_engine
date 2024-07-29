@@ -6,10 +6,20 @@ namespace y0_engine {
   struct Vector3 {
     public:
       /**
-       * @brief constructor
+       * @brief default constructor
        */
       explicit Vector3() {
         Vector3(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+      }
+
+      /**
+       * @brief copy constructor
+       *
+       * @param v
+       */
+      explicit Vector3(const Vector3 &v)
+        : x(v.x), y(v.y), z(v.z)
+      {
       }
 
       /**
@@ -29,8 +39,8 @@ namespace y0_engine {
        *
        * @return 
        */
-      static Vector3<float> get_zero_vector() {
-        Vector3<float> v(0.0f, 0.0f, 0.0f);
+      static Vector3<T> get_zero_vector() {
+        Vector3<T> v(0, 0, 0);
         return v;
       }
 
