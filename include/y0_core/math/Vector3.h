@@ -1,6 +1,8 @@
 #ifndef Y0_ENGINE_INCLUDE_Y0_CORE_MATH_VECTOR3_H
 #define Y0_ENGINE_INCLUDE_Y0_CORE_MATH_VECTOR3_H
 
+#include "Math.h"
+
 namespace y0_engine {
   template<typename T>
   struct Vector3 {
@@ -70,23 +72,95 @@ namespace y0_engine {
         return x != v.x || y != v.y || z != v.z;
       }
 
-      /**
-       * @brief ret this vector to zero
-       */
-      void RetZero() {
-        x = static_cast<T>(0);
-        y = static_cast<T>(0);
-        z = static_cast<T>(0);
+      Vector3 operator +() const {
+        return Vector3(x, y, z);
+      }
+
+      Vector3 operator +(const Vector3 &v) const {
+        return Vector3(x + v.x, y + v.y, z + v.z);
+      }
+
+      Vector3 &operator +=(const Vector3 &v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return *this;
+      }
+
+      Vector3 operator -() const {
+        return Vector3(-x, -y, -z);
+      }
+
+      Vector3 operator -(const Vector3 &v) const {
+        return Vector3(x - v.x, y - v.y, z - v.z);
+      }
+
+      Vector3 &operator -=(const Vector3 &v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
+        return *this;
       }
 
       /**
-       * @brief make zero vector and return this one.
+       * @brief scaler multiplication
+       *
+       * @param s
        *
        * @return 
        */
-      static Vector3<T> GetZeroVector() {
-        Vector3<T> v(0, 0, 0);
-        return v;
+      Vector3 operator *(T s) const {
+        return Vector3(x * s, y * s, z * s);
+      }
+
+      Vector3 &operator *=(const Vector3 &v) {
+        x *= v.x;
+        y *= v.y;
+        z *= v.z;
+        return *this;
+      }
+
+      /**
+       * @brief inner product
+       *
+       * @param v
+       *
+       * @return 
+       */
+      T operator *(const Vector3 &v) const {
+        return x * v.x + y * v.y + z * v.z;
+      }
+
+      /**
+       * @brief division
+       *
+       * @param s
+       *
+       * @attention do not check dividing by zero
+       *
+       * @return 
+       */
+      Vector3 operator /(const T s) const {
+        T inverse = static_cast<T>(1) / s;
+        return Vector3(x * inverse, y * inverse, z * inverse);
+      }
+
+      Vector3 &operator /=(const T s) {
+        T inverse = static_cast<T>(1) / s;
+        x *= inverse;
+        y *= inverse;
+        z *= inverse;
+        return *this;
+      }
+
+
+      /**
+       * @brief let this vector to zero
+       */
+      void LetZero() {
+        x = static_cast<T>(0);
+        y = static_cast<T>(0);
+        z = static_cast<T>(0);
       }
 
       /**
@@ -96,6 +170,50 @@ namespace y0_engine {
        */
       T SquareLength() {
         return x * x + y * y + z * z;
+      }
+
+      void Normalize() {
+        T square_length = SquareLength();
+        if (square_length <= static_cast<T>(0))
+          return;
+        T inverse_of_len = static_cast<T>(1) / Sqrt(square_length);
+        x *= inverse_of_len;
+        y *= inverse_of_len;
+        z *= inverse_of_len;
+      }
+
+      /**
+       * @brief make zero vector and return this one.
+       *
+       * @return 
+       */
+      static Vector3<T> GetZeroVector() {
+        Vector3<T> v(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+        return v;
+      }
+
+      /**
+       * @brief get length of the vector
+       *
+       * @param v
+       *
+       * @return 
+       */
+      static T Norm(const Vector3 &v) {
+        return Sqrt(v.SquareLength());
+      }
+
+      static Vector3 CrossProduct(const Vector3 &lhs, const Vector3 &rhs) {
+        return Vector3(lhs.y * rhs.z - lhs.z * rhs.y,
+                       lhs.z * rhs.x - lhs.x * rhs.z,
+                       lhs.x * rhs.y - lhs.y * rhs.x);
+      }
+
+      static T Distance(const Vector3 &lhs, const Vector3 &rhs) {
+        T dx = lhs.x - rhs.x;
+        T dy = lhs.y - rhs.y;
+        T dz = lhs.z - rhs.z;
+        return Sqrt(dx * dx + dy * dy + dz * dz);
       }
 
       // variable

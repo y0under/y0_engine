@@ -13,7 +13,9 @@ namespace y0_engine {
         return std::max(first, second);
       }
 
-      static float Sqrt(const float &val) {
+      template<typename T>
+      static std::enable_if<std::is_arithmetic<T>::value, T>::type
+      Sqrt(const T &val) {
         return std::sqrt(val);
       }
 
