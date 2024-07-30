@@ -6,18 +6,21 @@
 #include <GLFW/glfw3.h>
 
 namespace y0_engine {
+  template<typename T>
   class Matrix
   {
     public:
       // constructor
-      explicit Matrix();
-      explicit Matrix(const GLfloat *a);
+      explicit Matrix() {}
+      explicit Matrix(const T *a) {
+        std::copy(a, a + 16, matrix);
+      }
 
-      const GLfloat &operator[](std::size_t i) const {
+      const T &operator[](std::size_t i) const {
         return matrix[i];
       }
 
-      GLfloat &operator[](std::size_t i) {
+      T &operator[](std::size_t i) {
         return matrix[i];
       }
 
@@ -37,14 +40,17 @@ namespace y0_engine {
         return t;
       }
 
-      inline const GLfloat *data() const {
+      inline const T *data() const {
         return matrix;
       }
 
       /*
        * let me identity matrix
        */
-      void load_identity();
+      void load_identity() {
+        std::fill(matrix, matrix + 16, 0.0f);
+        matrix[0] = matrix[5] = matrix[10] = matrix[15] = 1.0f;
+      }
 
       /*
        * get identity matrix
@@ -58,7 +64,7 @@ namespace y0_engine {
       /*
        * get scale matrix following (x, y, z)
        */
-      static Matrix scale(GLfloat x, GLfloat y, GLfloat z) {
+      static Matrix scale(T x, T y, T z) {
         Matrix t;
 
         t.load_identity();
@@ -72,7 +78,7 @@ namespace y0_engine {
       /*
        * get translate matrix following (x, y, z)
        */
-      static Matrix translate(GLfloat x, GLfloat y, GLfloat z) {
+      static Matrix translate(T x, T y, T z) {
         Matrix t;
 
         t.load_identity();
@@ -88,15 +94,15 @@ namespace y0_engine {
        * theta: rotate angle
        * (x, y, z): rotate axis
        */
-      static Matrix rotate_matrix(GLfloat theta, GLfloat x, GLfloat y, GLfloat z) {
+      static Matrix rotate_matrix(T theta, T x, T y, T z) {
         Matrix t;
-        const GLfloat d(sqrt(x * x + y * y + z * z));
+        const T d(sqrt(x * x + y * y + z * z));
         if (d <= 0.0f) return t;
 
-        const GLfloat l(x / d), m(y / d), n(z / d);
-        const GLfloat l2(l * l), m2(m * m), n2(n * n);
-        const GLfloat lm(l * m), mn(m * n), nl(n * l);
-        const GLfloat c(cos(theta)), c1(1.0f - c), s(sin(theta));
+        const T l(x / d), m(y / d), n(z / d);
+        const T l2(l * l), m2(m * m), n2(n * n);
+        const T lm(l * m), mn(m * n), nl(n * l);
+        const T c(cos(theta)), c1(1.0f - c), s(sin(theta));
         t.load_identity();
         t[0]  = (1.0f - l2) * c + l2;
         t[1]  = lm * c1 + n * s;
@@ -117,43 +123,43 @@ namespace y0_engine {
        * (gx, gy, gz): target position
        * (ux, uy, uz): vector for up
        */
-      static Matrix view_conversion_matrix(GLfloat ex, GLfloat ey, GLfloat ez,
-          GLfloat gx, GLfloat gy, GLfloat gz,
-          GLfloat ux, GLfloat uy, GLfloat uz) {
+      static Matrix view_conversion_matrix(T ex, T ey, T ez,
+          T gx, T gy, T gz,
+          T ux, T uy, T uz) {
         const Matrix transrate_matrix(translate(-ex, -ey, -ez));
         // axis of t = e - g
-        const GLfloat tx(ex - gx);
-        const GLfloat ty(ey - gy);
-        const GLfloat tz(ez - gz);
+        const T tx(ex - gx);
+        const T ty(ey - gy);
+        const T tz(ez - gz);
         // axis of r = u x asis of t
-        const GLfloat rx(uy * tz - uz * ty);
-        const GLfloat ry(uz * tx - ux * tz);
-        const GLfloat rz(ux * ty - uy * tx);
+        const T rx(uy * tz - uz * ty);
+        const T ry(uz * tx - ux * tz);
+        const T rz(ux * ty - uy * tx);
         // axis of s = axis of t x axis of r
-        const GLfloat sx(ty * rz - tz * ry);
-        const GLfloat sy(tz * rx - tx * rz);
-        const GLfloat sz(tx * ry - ty * rx);
+        const T sx(ty * rz - tz * ry);
+        const T sy(tz * rx - tx * rz);
+        const T sz(tx * ry - ty * rx);
         // check length of s axis
-        const GLfloat s2(sx * sx + sy * sy + sz * sz);
+        const T s2(sx * sx + sy * sy + sz * sz);
 
         if (s2 == 0.0f) return transrate_matrix;
 
         Matrix rotate_matrix;
         rotate_matrix.load_identity();
 
-        const GLfloat r(sqrt(rx * rx + ry * ry + rz * rz));
+        const T r(sqrt(rx * rx + ry * ry + rz * rz));
         // normalize
         rotate_matrix[0] = rx / r;
         rotate_matrix[4] = ry / r;
         rotate_matrix[8] = rz / r;
 
-        const GLfloat s(sqrt(s2));
+        const T s(sqrt(s2));
         // normalize
         rotate_matrix[1] = sx / s;
         rotate_matrix[5] = sy / s;
         rotate_matrix[9] = sz / s;
 
-        const GLfloat t(sqrt(tx * tx + ty * ty + tz * tz));
+        const T t(sqrt(tx * tx + ty * ty + tz * tz));
         // normalize
         rotate_matrix[2] = tx / t;
         rotate_matrix[6] = ty / t;
@@ -165,13 +171,13 @@ namespace y0_engine {
       /*
        * get frustum matrix
        */
-      static Matrix frustum(GLfloat left, GLfloat right,
-          GLfloat bottom, GLfloat top,
-          GLfloat z_near, GLfloat z_far) {
+      static Matrix frustum(T left, T right,
+          T bottom, T top,
+          T z_near, T z_far) {
         Matrix t;
-        const GLfloat dx(right - left);
-        const GLfloat dy(top - bottom);
-        const GLfloat dz(z_far - z_near);
+        const T dx(right - left);
+        const T dy(top - bottom);
+        const T dz(z_far - z_near);
         if (dx != 0.0f && dy != 0.0f && dz != 0.0f) {
           t.load_identity();
           t[0] = 2.0f * z_near / dx;
@@ -189,10 +195,10 @@ namespace y0_engine {
       /*
        * get perspective projection matrix
        */
-      static Matrix perspective(GLfloat fovy, GLfloat aspect,
-          GLfloat z_near, GLfloat z_far) {
+      static Matrix perspective(T fovy, T aspect,
+          T z_near, T z_far) {
         Matrix t;
-        const GLfloat dz(z_far - z_near);
+        const T dz(z_far - z_near);
         if (dz == 0.0f) return t;
 
         t.load_identity();
@@ -207,7 +213,7 @@ namespace y0_engine {
       }
 
     private:
-      GLfloat matrix[16];
+      T matrix[16];
   };
 } // namespace y0_engine
 
