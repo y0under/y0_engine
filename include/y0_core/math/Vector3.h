@@ -168,7 +168,7 @@ namespace y0_engine {
        *
        * @return 
        */
-      T SquareLength() {
+      T SquareLength() const {
         return x * x + y * y + z * z;
       }
 
@@ -200,7 +200,7 @@ namespace y0_engine {
        * @return 
        */
       static T Norm(const Vector3 &v) {
-        return Sqrt(v.SquareLength());
+        return Math::Sqrt(v.SquareLength());
       }
 
       static Vector3 CrossProduct(const Vector3 &lhs, const Vector3 &rhs) {
