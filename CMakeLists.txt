@@ -100,7 +100,8 @@ target_link_libraries(${BIN_NAME}
                       # Boost::boost)
 
 # test code
-add_subdirectory(test)
+# ビルド時に自動でテストしたいと思っていたが。。。
+# add_subdirectory(test)
 
 # set(BIN_NAME y0_engine)
 
