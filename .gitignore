@@ -3,3 +3,6 @@ build/*
 include/.DS_Store
 include/y0_core/.DS_Store
 src/y0_core/.DS_Store
+test/build/CMakeFiles/*
+test/build/*
+test/test/*
